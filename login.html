@@ -1,0 +1,178 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<style>
+    /* Main Layout Container */
+    .auth-wrapper {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        min-height: 75vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fdfbfb;
+        padding: 40px 15px;
+    }
+    .auth-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        border: 1px solid rgba(0,0,0,0.02);
+        width: 100%;
+        max-width: 420px;
+        padding: 35px;
+        box-sizing: border-box;
+    }
+    /* Dynamic Form Switching Panels */
+    .auth-form-panel {
+        display: none;
+    }
+    .auth-form-panel.active {
+        display: block;
+    }
+    /* Input Fields */
+    .auth-input-group {
+        margin-bottom: 20px;
+    }
+    .auth-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 6px;
+    }
+    .auth-field {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: border-color 0.2s;
+    }
+    .auth-field:focus {
+        outline: none;
+        border-color: #c9184a;
+    }
+    /* Theme Colored Button with Hover State */
+    .auth-submit-btn {
+        width: 100%;
+        padding: 14px;
+        background: #111111;
+        color: #ffffff;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        margin-top: 10px;
+    }
+    .auth-submit-btn:hover {
+        background: #c9184a;
+        box-shadow: 0 5px 15px rgba(201, 24, 74, 0.3);
+    }
+    /* Toggle Link Bar */
+    .auth-toggle-msg {
+        text-align: center;
+        font-size: 14px;
+        color: #666;
+        margin-top: 25px;
+    }
+    .auth-toggle-link {
+        color: #c9184a;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    /* Error Messages Styling */
+    .auth-error-alert {
+        background-color: #ffeef2;
+        border: 1px solid #ffccd5;
+        color: #c9184a;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 13px;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="auth-error-alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div id="login-panel" class="auth-form-panel active">
+            <h2 style="margin: 0 0 8px 0; font-size: 24px; color: #111; font-weight: 700;">Welcome Back</h2>
+            <p style="margin: 0 0 25px 0; color: #888; font-size: 14px;">Sign in to check out your favorite K-Beauty items</p>
+            
+            <form method="POST" action="{% url 'login_view' %}">
+                {% csrf_token %}
+                <div class="auth-input-group">
+                    <label class="auth-label">Username</label>
+                    <input type="text" name="username" class="auth-field" placeholder="Enter your username" required>
+                </div>
+                <div class="auth-input-group">
+                    <label class="auth-label">Password</label>
+                    <input type="password" name="password" class="auth-field" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="auth-submit-btn">Log In</button>
+            </form>
+            
+            <div class="auth-toggle-msg">
+                New to Ailis COLTD? <span class="auth-toggle-link" onclick="toggleAuthPanels('signup')">Create an account</span>
+            </div>
+        </div>
+
+        <div id="signup-panel" class="auth-form-panel">
+            <h2 style="margin: 0 0 8px 0; font-size: 24px; color: #111; font-weight: 700;">Join Us</h2>
+            <p style="margin: 0 0 25px 0; color: #888; font-size: 14px;">Create your personal beauty profile today</p>
+            
+            <form method="POST" action="{% url 'signup_view' %}">
+                {% csrf_token %}
+                <div class="auth-input-group">
+                    <label class="auth-label">Username</label>
+                    <input type="text" name="username" class="auth-field" placeholder="Choose a username" required>
+                </div>
+                <div class="auth-input-group">
+                    <label class="auth-label">Email Address</label>
+                    <input type="email" name="email" class="auth-field" placeholder="name@example.com" required>
+                </div>
+                <div class="auth-input-group">
+                    <label class="auth-label">Password</label>
+                    <input type="password" name="password" class="auth-field" placeholder="Create a strong password" required>
+                </div>
+                <button type="submit" class="auth-submit-btn">Sign Up</button>
+            </form>
+            
+            <div class="auth-toggle-msg">
+                Already registered? <span class="auth-toggle-link" onclick="toggleAuthPanels('login')">Sign in here</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function toggleAuthPanels(targetPanel) {
+        const loginPanel = document.getElementById('login-panel');
+        const signupPanel = document.getElementById('signup-panel');
+        
+        if (targetPanel === 'signup') {
+            loginPanel.classList.remove('active');
+            signupPanel.classList.add('active');
+        } else {
+            signupPanel.classList.remove('active');
+            loginPanel.classList.add('active');
+        }
+    }
+</script>
+{% endblock content %}

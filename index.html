@@ -1,0 +1,127 @@
+{% extends 'store/base.html' %}
+
+{% block hero_banner %}
+    {% include 'store/layouts/banner.html' %}
+{% endblock hero_banner %}
+
+{% block content %}
+<style>
+    /* Styling the interactive product cards */
+    .product-card {
+        background: white; 
+        border-radius: 12px; 
+        padding: 16px; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.015); 
+        border: 1px solid rgba(0,0,0,0.03); 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: space-between; 
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+    }
+    /* Lift the entire product card slightly on hover */
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+
+    /* THE MODERN VIEW DETAILS BUTTON HOVER EFFECT */
+    .btn-view-details {
+        display: block; 
+        text-align: center; 
+        background: #111111; 
+        color: white; 
+        padding: 12px; 
+        border-radius: 6px; 
+        text-decoration: none; 
+        font-weight: 600; 
+        font-size: 13px; 
+        letter-spacing: 1px; 
+        text-transform: uppercase; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+        transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    /* Hover state: background goes dark pink/crimson, expands, and glows */
+    .btn-view-details:hover {
+        background: #c9184a !important; 
+        transform: scale(1.03); 
+        box-shadow: 0 6px 20px rgba(201, 24, 74, 0.4); 
+        letter-spacing: 1.5px; 
+    }
+    /* Active press state */
+    .btn-view-details:active {
+        transform: scale(0.98);
+    }
+</style>
+
+<div style="font-family: 'Inter', system-ui, -apple-system, sans-serif; max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 25px 40px; border-radius: 12px; margin-bottom: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03); flex-wrap: wrap; gap: 20px;">
+        <strong onclick="window.location.href='?brand=Biodance'" style="cursor: pointer; font-size: 16px; font-weight: 700; color: #111; letter-spacing: 1px; text-transform: uppercase; {% if request.GET.brand == 'Biodance' %}border-bottom: 2px solid #111; padding-bottom: 2px;{% endif %}">Biodance</strong>
+        <strong onclick="window.location.href='?brand=Anua'" style="cursor: pointer; font-size: 22px; font-family: 'Playfair Display', Georgia, serif; color: #222; font-style: italic; font-weight: 500; {% if request.GET.brand == 'Anua' %}border-bottom: 2px solid #222; padding-bottom: 2px;{% endif %}">Anua</strong>
+        <strong onclick="window.location.href='?brand=medicube'" style="cursor: pointer; font-size: 18px; font-weight: 800; color: #c1121f; letter-spacing: -0.5px; text-transform: lowercase; {% if request.GET.brand == 'medicube' %}border-bottom: 2px solid #c1121f; padding-bottom: 2px;{% endif %}">medicube</strong>
+        <strong onclick="window.location.href='?brand=TIRTIR'" style="cursor: pointer; font-size: 15px; font-weight: 300; letter-spacing: 5px; color: #000; {% if request.GET.brand == 'TIRTIR' %}border-bottom: 2px solid #000; padding-bottom: 2px;{% endif %}">TIRTIR</strong>
+        <strong onclick="window.location.href='?brand=SKIN1004'" style="cursor: pointer; font-size: 13px; font-weight: 600; letter-spacing: 4px; color: #444; {% if request.GET.brand == 'SKIN1004' %}border-bottom: 2px solid #444; padding-bottom: 2px;{% endif %}">SKIN1004</strong>
+        <strong onclick="window.location.href='?brand=VT COSMETICS'" style="cursor: pointer; font-size: 14px; font-weight: 700; letter-spacing: 2px; color: #222; border: 1px solid #222; padding: 3px 8px; border-radius: 2px; {% if request.GET.brand == 'VT COSMETICS' %}background-color: #222; color: #fff;{% endif %}">VT COSMETICS</strong>
+    </div>
+
+    <div style="margin-bottom: 35px; border-bottom: 1px solid #eee; padding-bottom: 15px; display: flex; align-items: baseline; justify-content: space-between;">
+        <h2 style="color: #111; font-family: 'Playfair Display', Georgia, serif; font-size: 28px; margin: 0; font-weight: 600; letter-spacing: -0.2px;">Our Discoveries</h2>
+        <span style="color: #c9184a; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;">Curated K-Beauty</span>
+    </div>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px;">
+        {% for product in products %}
+        <div class="product-card">
+            <div>
+                <div style="width: 100%; height: 260px; border-radius: 8px; overflow: hidden; background: #fafafa; border: 1px solid #f5f5f5; position: relative;">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" style="width: 100%; height: 100%; object-fit: cover;" alt="{{ product.name }}">
+                    {% else %}
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 13px; font-weight: 500; letter-spacing: 0.5px;">No Image Available</div>
+                    {% endif %}
+                </div>
+                
+                <h3 style="margin: 16px 0 6px 0; font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1.5px;">{{ product.brand }}</h3>
+                
+                <h4 style="margin: 0 0 15px 0; color: #111; font-size: 15px; font-weight: 600; line-height: 1.4; height: 42px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ product.name }}</h4>
+            </div>
+            
+            <div style="border-top: 1px solid #f9f9f9; padding-top: 12px; margin-top: 5px;">
+                <p style="font-size: 20px; font-weight: 700; color: #c9184a; margin: 0 0 12px 0;">${{ product.price|floatformat:2 }}</p>
+                
+                <a href="{% url 'product_detail' product.id %}" 
+                   class="btn-view-details"
+                   onclick="console.log('Clicked Product: {{ product.name|escapejs }} | Price: ${{ product.price|floatformat:2 }}')">
+                    View Details
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div style="grid-column: 1/-1; text-align: center; background: white; padding: 60px 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.03);">
+            <p style="color: #666; font-size: 15px; margin-bottom: 20px; font-weight: 400;">No products registered inside the store database yet.</p>
+            <a href="{% url 'product_create' %}" style="display: inline-block; background: #198754; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
+                + Add Your First Product Item
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination controls -->
+    <div style="margin-top: 40px; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; gap: 10px; font-family: 'Inter', sans-serif;">
+        {% if products.has_previous %}
+            <a href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.promotion %}&promotion={{ request.GET.promotion }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}" style="padding: 8px 16px; background: #fff; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; font-weight: 500; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='#fff'">&laquo; First</a>
+            <a href="?page={{ products.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.promotion %}&promotion={{ request.GET.promotion }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}" style="padding: 8px 16px; background: #fff; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; font-weight: 500; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='#fff'">Previous</a>
+        {% endif %}
+
+        <span style="padding: 8px 16px; background: #111; color: white; border-radius: 4px; font-weight: 600; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            Page {{ products.number }} of {{ products.paginator.num_pages }}
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.promotion %}&promotion={{ request.GET.promotion }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}" style="padding: 8px 16px; background: #fff; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; font-weight: 500; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='#fff'">Next</a>
+            <a href="?page={{ products.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.promotion %}&promotion={{ request.GET.promotion }}{% endif %}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}" style="padding: 8px 16px; background: #fff; border: 1px solid #ddd; border-radius: 4px; text-decoration: none; color: #333; font-weight: 500; font-size: 14px; transition: all 0.2s ease;" onmouseover="this.style.background='#f9f9f9'" onmouseout="this.style.background='#fff'">Last &raquo;</a>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock content %}

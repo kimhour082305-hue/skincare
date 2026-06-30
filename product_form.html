@@ -1,0 +1,39 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div style="font-family: sans-serif; max-width: 600px; margin: 30px auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+    
+    <h2 style="color: #c9184a; margin-top: 0; margin-bottom: 25px; border-bottom: 2px solid #fff0f3; padding-bottom: 10px; font-weight: bold; font-size: 22px;">
+        {{ title }}
+    </h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {% for field in form %}
+            <div style="margin-bottom: 18px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 6px; color: #444; font-size: 14px; text-transform: capitalize;">
+                    {{ field.label }}
+                </label>
+                
+                {{ field }}
+                
+                {% if field.errors %}
+                    <div style="color: #dc3545; font-size: 13px; font-weight: bold; margin-top: 4px;">
+                        ⚠️ {{ field.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <div style="display: flex; gap: 15px; margin-top: 35px;">
+            <button type="submit" style="background: #198754; color: white; border: none; padding: 12px 30px; font-size: 15px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 50%; letter-spacing: 0.5px;">
+                Save Product
+            </button>
+            <a href="{% url 'inventory_list' %}" style="display: block; text-align: center; background: #6c757d; color: white; padding: 12px 30px; text-decoration: none; font-size: 15px; font-weight: bold; border-radius: 4px; width: 50%; box-sizing: border-box; line-height: 1.2;">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ailis COLTD | Curated K-Beauty </title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* MODERN CSS RESET & VARIABLES */
+        :root {
+            --bg-global: #fff5f6;
+            /* Soft ultra-light blush background */
+            --text-primary: #1a1a1a;
+            /* Deep charcoal black for professional readability */
+            --text-muted: #666666;
+            /* Slate gray for subtitles */
+            --accent-pink: #c9184a;
+            /* Signature brand color vibrant pink */
+            --accent-pastel: #ffb5a7;
+            /* Soft secondary accent tone */
+            --font-ui: 'Inter', sans-serif;
+            --font-serif: 'Playfair Display', Georgia, serif;
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-global);
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* STRUCTURAL MAIN MAIN WRAPPER CONTAINER */
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 40px 4%;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* SMOOTH PAGE TRANSITION ANIMATION */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* GLOBAL PREMIUM FORM ELEMENT BASELINE */
+        input,
+        button,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        /* CUSTOM SCROLLBAR FOR BEAUTIFUL DESIGN */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-global);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-pastel);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-pink);
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include 'store/layouts/header.html' %}
+
+    {% block hero_banner %}
+    {% endblock hero_banner %}
+
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    {% include 'store/layouts/footer.html' %}
+
+</body>
+
+</html>
