@@ -1,25 +1,31 @@
-"""
-URL configuration for myproject project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path  # pyrefly: ignore [missing-import]
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('store.urls')),  # <--- Points to our store app urls
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # Customer Store Front View Paths
+    path('', views.index, name='index'),  # 🌟 Kept as 'index' to fix the template crash!
+    path('contact/', views.contact_view, name='contact'),
+    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
+    
+    # Cart Modification and Operations Session Paths
+    path('cart/', views.cart_detail, name='cart_detail'),
+    path('cart/add/<int:product_id>/', views.cart_add, name='cart_add'),
+    path('cart/remove/<int:product_id>/', views.cart_remove, name='cart_remove'),
+
+    # Administrative Workspace Dashboard CRUD Actions
+    path('inventory/', views.inventory_list, name='inventory_list'),
+    path('inventory/add/', views.product_create, name='product_create'),
+    path('inventory/edit/<int:product_id>/', views.product_update, name='product_update'),
+    path('inventory/delete/<int:product_id>/', views.product_delete, name='product_delete'),
+    
+    # Wishlist and Checkout Logic
+    path('wishlist/add/<int:product_id>/', views.wishlist_add, name='wishlist_add'),
+    path('checkout/', views.checkout_view, name='checkout'),
+    path('checkout/success/', views.order_success_view, name='order_success'),
+    
+    # Authentication (Login/Signup/Interface) Paths
+    path('account/', views.auth_page, name='auth_page'),
+    path('account/login/', views.login_view, name='login_view'),   
+    path('account/signup/', views.signup_view, name='signup_view'),
+    path('account/logout/', views.logout_view, name='logout_view'),
+]
